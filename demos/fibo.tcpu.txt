@@ -1,0 +1,42 @@
+=BASE_ADDRESS 0x80
+
+SPAWN :PROGRAM
+JUMP :DONE
+
+:PROGRAM
+# Calculate the largest Fibonacci value we can fit into a register.
+# Output will be in register#B.
+# Thread will STOP once it can't go any farther.
+
+# Set up the working set. We'll be working in register#B and register#C.
+ZERO B      # B = 0
+INCR B      # B = 1
+ZERO C      # C = 0
+ZERO D      # D = 0
+
+# Yield before looping so all of the worker threads can be spawned in rapid
+# succession.
+YIELD
+
+:LOOP
+    # We put the next number into D
+    ZERO D      # D = 0
+    ADD B → D  # D = B
+    ADD C → D  # D = B + C
+    JUMP_UNLESS_ZERO OF -> :DONE
+
+    # Copy that number to B
+    R2R B → C
+    R2R D → B
+
+    # Decrement the counter
+    YIELD
+    JUMP :LOOP
+
+:DONE
+# The Nth fibonacci number is stored in D, due to overflow -- copy it to B and
+# clean up after ourselves.
+R2R D → B
+ZERO C
+ZERO D
+STOP

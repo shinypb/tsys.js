@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+SRC=${1:-}
+if [ -z "${SRC}" ]; then 
+    echo "usage: $( basename $0 ) <source .tcpu.txt file>"
+    exit 1
+fi
+
+DEST=${SRC/.tcpu.txt/.bin}
+echo $DEST
+
+$ROOT_DIR/assembler/tassem.rb < $SRC | $ROOT_DIR/assembler/thex2bin.rb > $DEST
+
+echo
+echo Assembled OK!

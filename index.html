@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TSYS</title>
+        <style>
+            #state.running {
+                background-color: #efe;
+            }
+
+            #state.halted {
+                background-color: #fee;
+            }
+
+            #registers {
+                font-family: monospace;
+                font-size: 18px;
+                text-align: center;
+            }
+            
+            #registers tr > * {
+                width: 2em;
+            }
+            
+            #registers tr > *:hover {
+                background: #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="screen"></div>
+        <div id="state">
+            <table id="registers">
+                <tr id="register_names"></tr>
+                <tr id="registers_0"></tr>
+                <tr id="registers_1"></tr>
+                <tr id="registers_2"></tr>
+                <tr id="registers_3"></tr>
+            </table>
+        </div>
+        <div id="controls">
+            <button id="step">Step</button>
+            <button id="run">Run</button>
+            <button id="pause" disabled>Pause</button>
+        </div>
+    </body>
+    <script data-main="scripts/main" src="scripts/require.js"></script>
+</html>

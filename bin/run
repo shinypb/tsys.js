@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+MEM_SIZE=1024
+MEM_IMAGE=${1:-demos/fibo.bin}
+
+node $ROOT_DIR/bin/main.js $MEM_SIZE $MEM_IMAGE
