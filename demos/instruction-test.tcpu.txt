@@ -25,7 +25,7 @@ SET 0xF1 -> B
 
 SET 0x05 -> E
 R2R E -> G
-NOT G -> G # G should contain (~0x01) = 0xFA
+NOT G -> G # G should contain (~0x05) = 0xFA
 
 JUMP :DONE
 
