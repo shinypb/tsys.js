@@ -1,0 +1,48 @@
+=BASE_ADDRESS 0x80
+
+# Initialize our threads
+SPAWN :T1
+SPAWN :T2
+JUMP :T0
+
+:T0 # Just SET
+SET 0x10 -> A
+SET 0x11 -> B
+SET 0x12 -> C
+SET 0x13 -> D
+SET 0x14 -> E
+SET 0x15 -> F
+SET 0x16 -> G
+SET 0x17 -> H
+
+JUMP :DONE
+
+########
+
+:T1 # Demo NOT
+YIELD # immediately yield back to T0 so it can spawn T2
+SET 0xF1 -> B
+
+SET 0x05 -> E
+R2R E -> G
+NOT G -> G # G should contain (~0x01) = 0xFA
+
+JUMP :DONE
+
+########
+
+:T2 # Demo XOR
+YIELD # immediately yield back to T0 so it can spawn T3
+SET 0xF2 -> C
+
+SET 0xF0 -> E
+SET 0x1F -> F
+R2R F -> G
+XOR E -> G # G should contain (0xF0 ^ 0x1F) = 0xEF
+
+JUMP :DONE
+
+########
+
+:DONE
+STOP
