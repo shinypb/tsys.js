@@ -1,0 +1,68 @@
+=BASE_ADDRESS 0x80
+
+# Initialize our threads
+SPAWN :T1
+SPAWN :T2
+
+JUMP :DONE
+
+########
+
+:T1 # Demo device acquistion
+MBTS 0x0c, 3                # Read and set device status owned bit to 1
+R2R CE -> H                 # H Represents device acquisition status error: Should be 0 because we got control.
+YIELD                       # yield back to T0 so it can spawn other threads, but they can't have our resource
+
+JUMP_UNLESS_ZERO H -> :DONE # Give up if we couldn't get the resource 
+
+# Update status register to know that it's owned by us so interrupts can happen
+M2R 0x0c -> A               # Copy the full status byte of the device
+R2R T -> B                  # Get our thread ID
+OR A -> B                   # Add thread ID to status byte
+R2M B -> 0x0c               # Write the status byte back, now with our thread ID
+
+########
+### Wait for interrupts and do work in here with keyboard resource
+########
+
+ZERO A                      # Cleanup
+ZERO B
+R2M A -> 0x0c               # Wipe the hardware memory location
+
+JUMP :DONE
+
+:T2 # Failed device acquistion
+MBTS 0x0c, 3                # Attempt device ownership request for device that is already owned
+R2R CE -> G                 # Represents device acquisition status error: Should be 1 because we didn't get control.
+
+YIELD
+JUMP_UNLESS_ZERO G -> :T2_2 # Failed, jump to DONE
+
+# Impossible success, do stuff with resource!
+
+:T2_2 # Maybe we can get the resource now?
+
+MBTS 0x0c, 3                # Read and set device status owned bit to 1
+R2R CE -> H                 # H Represents device acquisition status error: Should be 0 because we got control.
+JUMP_UNLESS_ZERO H -> :DONE # Give up if we couldn't get the resource 
+
+# Update status register to know that it's owned by us so interrupts can happen
+M2R 0x0c -> A               # Copy the full status byte of the device
+R2R T -> B                  # Get our thread ID
+OR A -> B                   # Add thread ID to status byte
+R2M B -> 0x0c               # Write the status byte back, now with our thread ID
+
+########
+### Wait for interrupts and do work in here with keyboard resource
+########
+
+ZERO A                      # Cleanup
+ZERO B
+R2M A -> 0x0c               # Wipe the hardware memory location
+
+JUMP :DONE
+
+########
+
+:DONE
+STOP

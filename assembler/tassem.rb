@@ -149,6 +149,8 @@ lines.each do |line|
       assembled_args = case op
         when :YIELD, :STOP, :HALT
           []
+        when :MBTS
+          [MAKE_VALUE(args[0]), MAKE_VALUE(args[1])]
         when :AND, :OR
           [MAKE_REGISTER(args[0]), MAKE_REGISTER(args[1])]
         when :SET

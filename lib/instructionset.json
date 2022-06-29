@@ -21,5 +21,6 @@
     { "code": 19, "name": "OR",               "args": [1,1] },
     { "code": 20, "name": "SET",              "args": [1,1] },
     { "code": 21, "name": "COMPARE",          "args": [1,1] },
-    { "code": 22, "name": "IM2R",             "args": [1,1] }
+    { "code": 22, "name": "IM2R",             "args": [1,1] },
+    { "code": 25, "name": "MBTS",              "args": [1,1] }
 ]
