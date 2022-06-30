@@ -149,7 +149,7 @@ lines.each do |line|
       assembled_args = case op
         when :YIELD, :STOP, :HALT
           []
-        when :AND, :OR
+        when :AND, :OR, :XOR
           [MAKE_REGISTER(args[0]), MAKE_REGISTER(args[1])]
         when :SET
           [MAKE_VALUE(args[0]), MAKE_REGISTER(args[1])]
@@ -165,7 +165,7 @@ lines.each do |line|
           [MAKE_REGISTER(args[0]), MAKE_ADDRESS_OR_LABEL(args[1])]
         when :R2R, :ADD, :SUB, :COMPARE, :IM2R
           [MAKE_REGISTER(args[0]), MAKE_REGISTER(args[1])]
-        when :ZERO, :INCR, :DECR, :LSHIFT, :RSHIFT
+        when :ZERO, :INCR, :DECR, :LSHIFT, :RSHIFT, :NOT
           [MAKE_REGISTER(args[0])]
         when :SPAWN
           [MAKE_ADDRESS_OR_LABEL(args[0])]
