@@ -23,5 +23,6 @@
     { "code": 21, "name": "COMPARE",          "args": [1,1] },
     { "code": 22, "name": "IM2R",             "args": [1,1] },
     { "code": 23, "name": "XOR",              "args": [1,1] },
-    { "code": 24, "name": "NOT",              "args": [1] }
+    { "code": 24, "name": "NOT",              "args": [1] },
+    { "code": 25, "name": "MBTS",             "args": [1,1] }
 ]
