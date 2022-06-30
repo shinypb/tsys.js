@@ -40,19 +40,24 @@ cpu.devices.forEach(function(d) {
     d.enable();
 });
 
-while (!cpu.isHalted) {
-    cpu.tick();
+let tick = () => {
+    if (!cpu.isHalted) {
+        cpu.tick();
 
-    console.log('          A\tB\tC\tD\tE\tF\tG\tH');
-    for (let i = 0; i < 4; i++) {
-        console.log(i + ' @ ' + cpu.threadPCs[i] + '\t: ' + cpu.threadRegisters[i].join('\t'));
+        console.log('          A\tB\tC\tD\tE\tF\tG\tH');
+        for (let i = 0; i < 4; i++) {
+            console.log(i + ' @ ' + cpu.threadPCs[i] + '\t: ' + cpu.threadRegisters[i].join('\t'));
+        }
+        console.log('\n--------');
+        setTimeout(tick);
+    } else {
+        console.log('');
+        console.log('Halted! ' + cpu.haltReason);
+
+        cpu.devices.forEach(function(d) {
+            d.disable();
+        });
     }
-    console.log('\n--------');
 }
 
-console.log('');
-console.log('Halted! ' + cpu.haltReason);
-
-cpu.devices.forEach(function(d) {
-   d.disable();
-});
+tick();
