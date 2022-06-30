@@ -8,6 +8,7 @@ if (args.length != 2) {
 
 const MEM_BASE_OFFSET = 0x80;
 
+let TKeyboard = require('../lib/tkeyboard.js');
 let TMemory = require('../lib/tmemory.js');
 let TCPU = require('../lib/tcpu.js');
 let fs = require('fs');
@@ -22,6 +23,10 @@ if (mem_img.length > mem_size) {
     process.exit(1);
 }
 
+let devices = [
+    new TKeyboard()
+];
+
 console.log('Creating memory:', mem_size, 'bytes')
 let memory = new TMemory(mem_size);
 console.log('Loading memory image at offset', MEM_BASE_OFFSET);
@@ -30,7 +35,11 @@ mem_img.forEach(function(b, i) {
     memory.setByte(MEM_BASE_OFFSET + i, b);
 });
 
-let cpu = new TCPU(memory, MEM_BASE_OFFSET);
+let cpu = new TCPU(memory, MEM_BASE_OFFSET, devices);
+cpu.devices.forEach(function(d) {
+    d.enable();
+});
+
 while (!cpu.isHalted) {
     cpu.tick();
 
@@ -43,3 +52,7 @@ while (!cpu.isHalted) {
 
 console.log('');
 console.log('Halted! ' + cpu.haltReason);
+
+cpu.devices.forEach(function(d) {
+   d.disable();
+});
