@@ -47,7 +47,7 @@ By convention, the I/O devices are connected at the following locations:
 
 - Device 0 (`0x04`): clock signal (interrupts once per second)
 - Device 1 (`0x08`): output terminal
-- Device 2 (`0x08`): keyboard
+- Device 2 (`0x0c`): keyboard
 - Device 3 (`0x12`): random number generator
 
 ## Interrupts
