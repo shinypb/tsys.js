@@ -7,7 +7,7 @@
 - Running code is loaded into memory at offset `0x80`.
 - Any attempts to jump to an address lower than `0x80` will [`HALT`](./TCPU.md#OP_HALT) the machine.
 - Code at `0x80` is the entrypoint for thread #0 (other threads do not have bootstrap code). It should consist of a `JMP` instruction pointing to the bootstrap code.
-- Code at `0x83` is the entrypoint for the interrupt handler. It should consist of a JMP instruction pointing to the interrupt handler.
+- Code at `0x84` is the entrypoint for the interrupt handler. It should consist of a JMP instruction pointing to the interrupt handler.
 
 ## Execution
 
@@ -57,7 +57,7 @@ I/O is interrupt-driven; any device can trigger an interrupt to indicate that it
 0. The system looks at the status byte for the given I/O device to see which thread owns the device. If no thread owns the device, none of the remaining steps should happen and execution should resume normally.
 0. Bit 1 of the I/O device's status byte will be set to 1 (to indicate that there is data to read).
 0. The current value of the recipient thread's program counter is copied to memory offset `0x01`.
-0. The recipient thread's program counter is changed to `0x83` (the interrupt handler).
+0. The recipient thread's program counter is changed to `0x84` (the interrupt handler).
 0. Execution resumes.
 
 It is the responsibility of the interrupt handler to restore the previous value of the current thread's program counter from memory location `0x01—0x02` once it has finished servicing the interrupt.
