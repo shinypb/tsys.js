@@ -119,3 +119,12 @@ Compares register 1 to register 2. If register 1 is greater than register 2, CG 
 
 ### 22. `IM2R [register1, register2]`
 Fetches the contents of memory at the address stored in register1 and copies it to register2.
+
+### 23. `XOR [register1, register2]`
+Sets the value of register2 to the result of XOR'ing register1 and register2.
+
+### 24. `NOT [register]`
+Sets the value of register2 to the result of NOT'ing register1 and register2.
+
+### 25. `MBTS [register, offset]`
+Memory bit test/set. Sets the compare flag to the result of comparing that bit's current value against 1, and then sets the offset'th bit in the given register to 1.
