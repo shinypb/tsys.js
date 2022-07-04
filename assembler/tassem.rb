@@ -12,7 +12,7 @@ REGISTERS[:F] = 0x05
 REGISTERS[:G] = 0x06
 REGISTERS[:H] = 0x07
 
-REGISTERS[:T] = 0x80,
+REGISTERS[:T] = 0x80
 REGISTERS[:TC] = 0x81
 REGISTERS[:PC] = 0x82 # note: PC is 2 bytes wide, hence jump from 0x82 to 0x84
 REGISTERS[:CE] = 0x84
